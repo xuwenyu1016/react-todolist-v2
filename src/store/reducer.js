@@ -2,7 +2,7 @@ import { INPUT_CHANGE_VALUE, MODIFY_BUTTON_CLICK, DELETE_ITEM_CLICK } from './ac
 
 const defalutState = {
   inputValue: '',
-  list: [1,2,3]
+  list: []
 }
 
 export default (state = defalutState, action) => {
