@@ -1,4 +1,4 @@
-import { INPUT_CHANGE_VALUE, MODIFY_BUTTON_CLICK, DELETE_ITEM_CLICK } from './actionTypes';
+import { INPUT_CHANGE_VALUE, MODIFY_BUTTON_CLICK, DELETE_ITEM_CLICK, INIT_LIST_ACTION } from './actionTypes';
 
 const defalutState = {
   inputValue: '',
@@ -6,6 +6,12 @@ const defalutState = {
 }
 
 export default (state = defalutState, action) => {
+  if(action.type === INIT_LIST_ACTION) {
+    const newState = JSON.parse(JSON.stringify(state));
+    newState.list = action.data;
+    return newState;
+  }
+
   if(action.type === INPUT_CHANGE_VALUE) {
     const newState = JSON.parse(JSON.stringify(state));
     newState.inputValue = action.value;

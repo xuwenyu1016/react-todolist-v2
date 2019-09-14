@@ -1,10 +1,12 @@
-import React, { Component, Fragment } from 'react';
-import { Input, Button, List } from 'antd';
+import React, { Component } from 'react';
+
 import store from './store';
-import { getInputChangeAction, getModifyButtonClick, getDeleteItemClick } from './store/actionCreators'
+import { getInputChangeAction, getModifyButtonClick, getDeleteItemClick, initListAction } from './store/actionCreators'
 
 import 'antd/dist/antd.css';
 import './css/style.css'; 
+import TodoListUI from './TodoListUI';
+import axios from 'axios';
 
 class TodoList extends Component {
   constructor (props) {
@@ -14,32 +16,31 @@ class TodoList extends Component {
     this.handleInputChange = this.handleInputChange.bind(this)
     this.handleStoreCHange = this.handleStoreCHange.bind(this)
     this.handleClickButton = this.handleClickButton.bind(this)
-
+    this.handleListClick = this.handleListClick.bind(this)
     store.subscribe(this.handleStoreCHange)
   }
   render () {
     return (
-      <Fragment>
-        <Input
-          placeholder="To do list"
-          value={this.state.inputValue}
-          className="input"
-          onChange={this.handleInputChange}
-        />
-        <Button type="primary" onClick={this.handleClickButton}>Submit</Button>
-        <List
-          className="list"
-          size="small"
-          bordered
-          dataSource={this.state.list}
-          renderItem={
-            (item, index) =>
-              <List.Item onClick={this.handleListClick.bind(this,index)}>{item}</List.Item>
-          }
-        />
-      </Fragment>
+      <TodoListUI 
+        inputValue={this.state.inputValue}
+        handleInputChange = {this.handleInputChange}
+        handleClickButton = {this.handleClickButton}
+        list={this.state.list}
+        handleListClick = {this.handleListClick}
+      />
     )
   }
+
+  componentDidMount () {
+    axios.get('/api/list.json').then( (res) => {
+      // console.log(res)
+      const data = res.data;
+      const action = initListAction(data);
+      store.dispatch(action)
+    })
+  }
+
+
 
   handleInputChange (e) {
     const action = getInputChangeAction(e.target.value)

@@ -1,4 +1,4 @@
-import { INPUT_CHANGE_VALUE, MODIFY_BUTTON_CLICK, DELETE_ITEM_CLICK } from './actionTypes'
+import { INPUT_CHANGE_VALUE, MODIFY_BUTTON_CLICK, DELETE_ITEM_CLICK, INIT_LIST_ACTION } from './actionTypes'
 
 export const getInputChangeAction = (value) => ({
   type: INPUT_CHANGE_VALUE,
@@ -12,4 +12,9 @@ export const getModifyButtonClick = () => ({
 export const getDeleteItemClick = (index) => ({
   type: DELETE_ITEM_CLICK,
   index
+})
+
+export const initListAction = (data) => ({
+  type: INIT_LIST_ACTION,
+  data
 })
